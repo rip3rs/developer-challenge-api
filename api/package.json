@@ -3,7 +3,7 @@
   "version": "0.0.0-development",
   "description": "Simple REST API for frontend code challenge",
   "scripts": {
-    "api": "json-server --watch db.json --routes routes.json --port 9000",
+    "api": "node server.js",
     "start": "npm run api"
   },
   "repository": {

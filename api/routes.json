@@ -1,4 +1,0 @@
-{
-  "/posts/:slug": "/posts?slug=:slug",
-  "/comments/:postId": "/comments?postId=:postId"
-}

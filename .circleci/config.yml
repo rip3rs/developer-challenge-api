@@ -8,44 +8,39 @@ parameters:
     default: "14.15.5"
 
 orbs:
-  node: circleci/node@4.1.0
+  node: circleci/node@4.2.0
 
 jobs:
   ng_build:
+    working_directory: ~/challenge
     executor:
       name: node/default
       tag: <<pipeline.parameters.node_image_tag>>
     steps:
       - checkout
-      - run: pwd && ls -lah
+      - run: pwd && ls -lah api
       - node/install-packages:
-          app-dir: ng-challenge
-      - run: cd ng-challenge
-      - run: npm run build
-      - run: mv ng-challenge/public ../api
-      - run: cd ..
+          app-dir: ~/challenge/ng-challenge
+          cache-path: node_modules
+          override-ci-command: npm i
+      - run: cd ng-challenge && npm run build
+      - run: mv ng-challenge/public api
+      - run: pwd && ls -lah api
       - persist_to_workspace:
           root: .
-          paths: api
+          paths: .
 
   deploy:
+    working_directory: ~/challenge
     executor:
       name: node/default
       tag: <<pipeline.parameters.node_image_tag>>
     steps:
       - attach_workspace:
           at: .
-      - run: pwd && ls -lah
-      # - run:
-      #   command: |
-      #     heroku_url="https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git"
-      #     git subtree push --prefix api $heroku_url:master
-
-      # git push heroku `git subtree split --prefix output master`:master --force
-      # - attach_workspace:
-      #     at: .
-      # - run: pwd && ls -lah
-      # - run: ./node_modules/.bin/firebase deploy --token "${FIREBASE_TOKEN}"
+      - run: git config --global user.email "jbriggsr3@gmail.com" && git config --global user.name "Joseph Briggs"
+      - run: git add . && git commit -m "update project"
+      - run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git `git subtree split --prefix api main`:main --force
 
 workflows:
   production:
@@ -53,10 +48,10 @@ workflows:
       - ng_build:
           filters: &filters-production
             branches:
-              only: production
-      # - deploy:
-      #     context: heroku-jb-ng-challenge
-      #     requires:
-      #       - ng_build
-      #     filters:
-      #       <<: *filters-production
+              only: main
+      - deploy:
+          context: heroku-jb-ng-challenge
+          requires:
+            - ng_build
+          filters:
+            <<: *filters-production
