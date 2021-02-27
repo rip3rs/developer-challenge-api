@@ -1,0 +1,18 @@
+@import '../../../../style/variables';
+
+.comment--container {
+  background: $secondary;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: fit-content;
+
+  .user {
+    font-size: 0.8rem;
+    font-weight: 100;
+  }
+
+  .content {
+    font-weight: 300;
+  }
+}

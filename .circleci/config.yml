@@ -1,0 +1,61 @@
+version: 2.1
+
+description: Deploy challenge to Heroku for testing purposes
+
+parameters:
+  node_image_tag:
+    type: string
+    default: "14.15.5"
+
+orbs:
+  node: circleci/node@4.1.0
+
+jobs:
+  ng_build:
+    executor:
+      name: node/default
+      tag: <<pipeline.parameters.node_image_tag>>
+    steps:
+      - checkout
+      - run: pwd && ls -lah && ls -lah api
+      # - run: cd ng-challenge
+      # - node/install-packages
+      # - run: npm run build
+      # - run: mv public ../api
+      # # - run: cd ..
+      # - persist_to_workspace:
+      #     root: .
+      #     paths: api
+
+  # deploy:
+  #   executor:
+  #     name: node/default
+  #     tag: <<pipeline.parameters.node_image_tag>>
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run: pwd && ls -lah
+  # - run:
+  #   command: |
+  #     heroku_url="https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git"
+  #     git subtree push --prefix api $heroku_url:master
+
+  # git push heroku `git subtree split --prefix output master`:master --force
+  # - attach_workspace:
+  #     at: .
+  # - run: pwd && ls -lah
+  # - run: ./node_modules/.bin/firebase deploy --token "${FIREBASE_TOKEN}"
+
+workflows:
+  production:
+    jobs:
+      - ng_build:
+          filters: &filters-production
+            branches:
+              only: production
+      # - deploy:
+      #     context: heroku-jb-ng-challenge
+      #     requires:
+      #       - ng_build
+      #     filters:
+      #       <<: *filters-production

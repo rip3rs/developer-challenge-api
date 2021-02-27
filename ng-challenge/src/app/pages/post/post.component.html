@@ -1,0 +1,21 @@
+<div class="post--container">
+  <app-card *ngIf="post$ |async as post">
+    <div cardHeader>
+      <h1 class="title">
+        {{post.title}}
+      </h1>
+      <h2 class="h5 author">
+        <span>{{post.author}}</span>
+        -
+        <span>{{post.publish_date}}</span>
+      </h2>
+    </div>
+    <div cardContent [stringToHtml]="post.content">
+    </div>
+    <div cardFooter>
+      <button *ngIf="!showingAllComments" class="load-more-comments" (click)="loadAllComments(post.slug)">Load all comments.</button>
+      <app-comment-show *ngFor="let comment of post.comments" [data]="comment"></app-comment-show>
+      <app-comment-add [post]="post"></app-comment-add>
+    </div>
+  </app-card>
+</div>

@@ -1,0 +1,18 @@
+form {
+  display: flex;
+  flex-direction: column;
+
+  input:first-child {
+    width: 100px;
+  }
+
+  .comment--section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+
+    input {
+      width: 90%;
+    }
+  }
+}

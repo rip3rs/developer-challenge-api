@@ -1,0 +1,93 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "style/variables";
+@import "style/font";
+
+@import "style/input";
+@import "style/button";
+
+body {
+  font-family: $font-family;
+  color: $font-color-primary;
+  background: $background-color;
+  margin: 0;
+}
+
+a {
+  color: $font-color-primary;
+  text-decoration: none;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+button,
+input[type="submit"],
+input[type="reset"] {
+  color: $primary;
+}
+button:disabled,
+button[disabled] {
+  color: $font-color-secondary;
+}
+
+.h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.h4 {
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.h5 {
+  display: block;
+  font-size: 0.83em;
+  margin-top: 1.67em;
+  margin-bottom: 1.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.h6 {
+  display: block;
+  font-size: 0.67em;
+  margin-top: 2.33em;
+  margin-bottom: 2.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}

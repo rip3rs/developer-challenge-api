@@ -1,0 +1,24 @@
+<div class="add-comment--container">
+
+  <form [formGroup]="form" (ngSubmit)="submit()"  (keyup.enter)="submit()">
+    <input type="text"
+    placeholder="user"
+    autocapitalize="true"
+    autocorrect="on"
+    autocomplete="name"
+    formControlName="user" />
+
+    <div class="comment--section">
+      <input type="text"
+      placeholder="Comment..."
+      autocapitalize="true"
+      autocorrect="on"
+      formControlName="content"
+      />
+
+      <button type="submit" [disabled]="!form.valid"><fa-icon [icon]="paperPlaneIcon"></fa-icon></button>
+    </div>
+  </form>
+
+
+</div>
