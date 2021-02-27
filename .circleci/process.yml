@@ -7,7 +7,38 @@ jobs:
     steps:
     - checkout
     - run:
-        command: pwd && ls -lah && ls -lah api
+        command: pwd && ls -lah
+    - run:
+        command: |
+          if [ ! -f "package.json" ]; then
+            echo
+            echo "---"
+            echo "Unable to find your package.json file. Did you forget to set the app-dir parameter?"
+            echo "---"
+            echo
+            echo "Current directory: $(pwd)"
+            echo
+            echo
+            echo "List directory: "
+            echo
+            ls
+            exit 1
+          fi
+        name: Checking for package.json.
+        working_directory: /home/circleci/project/ng-challenge
+    - restore_cache:
+        keys:
+        - node-deps-v1-{{ .Branch }}-{{ checksum "/home/circleci/project/ng-challenge/package-lock.json" }}
+    - run:
+        command: "if [[ ! -z \"\" ]]; then\n  echo \"Running override package installation command:\"\n  \nelse\n  npm ci\nfi\n"
+        name: Installing NPM packages
+        working_directory: /home/circleci/project/ng-challenge
+    - save_cache:
+        key: node-deps-v1-{{ .Branch }}-{{ checksum "/home/circleci/project/ng-challenge/package-lock.json" }}
+        paths:
+        - ~/.npm
+    - run:
+        command: pwd && ls -lah && ls -lah ng-challenge
 workflows:
   production:
     jobs:
@@ -37,34 +68,36 @@ workflows:
 #       tag: <<pipeline.parameters.node_image_tag>>
 #     steps:
 #       - checkout
-#       - run: pwd && ls -lah && ls -lah api
+#       - run: pwd && ls -lah
+#       - node/install-packages:
+#           app-dir: /home/circleci/project/ng-challenge
+#       - run: pwd && ls -lah && ls -lah ng-challenge
 #       # - run: cd ng-challenge
-#       # - node/install-packages
 #       # - run: npm run build
 #       # - run: mv public ../api
-#       # # - run: cd ..
+#       # - run: cd ..
 #       # - persist_to_workspace:
 #       #     root: .
 #       #     paths: api
 # 
-#   # deploy:
-#   #   executor:
-#   #     name: node/default
-#   #     tag: <<pipeline.parameters.node_image_tag>>
-#   #   steps:
-#   #     - attach_workspace:
-#   #         at: .
-#   #     - run: pwd && ls -lah
-#   # - run:
-#   #   command: |
-#   #     heroku_url=\"https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git\"
-#   #     git subtree push --prefix api $heroku_url:master
+#   deploy:
+#     executor:
+#       name: node/default
+#       tag: <<pipeline.parameters.node_image_tag>>
+#     steps:
+#       - attach_workspace:
+#           at: .
+#       - run: pwd && ls -lah
+#       # - run:
+#       #   command: |
+#       #     heroku_url=\"https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git\"
+#       #     git subtree push --prefix api $heroku_url:master
 # 
-#   # git push heroku `git subtree split --prefix output master`:master --force
-#   # - attach_workspace:
-#   #     at: .
-#   # - run: pwd && ls -lah
-#   # - run: ./node_modules/.bin/firebase deploy --token \"${FIREBASE_TOKEN}\"
+#       # git push heroku `git subtree split --prefix output master`:master --force
+#       # - attach_workspace:
+#       #     at: .
+#       # - run: pwd && ls -lah
+#       # - run: ./node_modules/.bin/firebase deploy --token \"${FIREBASE_TOKEN}\"
 # 
 # workflows:
 #   production:
