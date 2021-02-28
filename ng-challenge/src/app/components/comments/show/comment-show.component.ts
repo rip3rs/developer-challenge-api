@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Comment } from '~types/post'
+import { Comments } from '~types/comment'
 
 @Component({
   selector: 'app-comment-show',
@@ -7,7 +7,7 @@ import { Comment } from '~types/post'
   styleUrls: ['./comment-show.component.scss'],
 })
 export class CommentShowComponent implements OnInit {
-  @Input() public data!: Comment // ! is dangerous...
+  @Input() public data!: Comments // ! is dangerous...
 
   constructor() {}
 

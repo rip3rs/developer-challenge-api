@@ -15,7 +15,7 @@
     <div cardFooter>
       <button *ngIf="!showingAllComments" class="load-more-comments" (click)="loadAllComments(post.slug)">Load all comments.</button>
       <app-comment-show *ngFor="let comment of post.comments" [data]="comment"></app-comment-show>
-      <app-comment-add [post]="post"></app-comment-add>
+      <app-comment-add [post]="post" (comment)="addComment($event)"></app-comment-add>
     </div>
   </app-card>
 </div>

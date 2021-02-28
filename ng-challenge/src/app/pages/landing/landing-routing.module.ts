@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Route } from '@angular/router'
-import { LandingResolver } from '@resolvers/landing.resolver'
 import { Post } from '~types/post'
 import { LandingComponent } from './landing.component'
 
@@ -19,9 +18,6 @@ const routes: LandingRoute[] = [
   {
     path: '',
     component: LandingComponent,
-    resolve: {
-      posts: LandingResolver,
-    },
   },
 ]
 

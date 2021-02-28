@@ -1,3 +1,5 @@
+import { Comments } from './comment'
+
 export interface Post {
   id: number
   title: string
@@ -6,14 +8,5 @@ export interface Post {
   slug: string
   description: string
   content: string
-  comments?: Comment[]
-}
-
-export interface Comment {
-  id: number
-  postId: number
-  parent_id: number
-  user: string
-  date: Date
-  content: string
+  comments?: Comments[]
 }

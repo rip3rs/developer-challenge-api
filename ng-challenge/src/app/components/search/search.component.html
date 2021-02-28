@@ -1,0 +1,9 @@
+<div class="search--container" >
+  <div class="content" [@isOpenClosed]="buttonState" (@isOpenClosed.start)="onAnimationEvent($event)" (@isOpenClosed.done)="onAnimationEvent($event)">
+    <button  (mouseenter)="mouseStateHover('true')" (mouseleave)="mouseStateHover('false')" (click)="mouseStateClicked()" class="search-button" >
+      <fa-icon [icon]="searchIcon"></fa-icon>
+    </button>
+
+    <input #searchInput *ngIf="buttonState === 'clicked'" type="text" (keyup)="textOutput($event)" />
+  </div>
+</div>

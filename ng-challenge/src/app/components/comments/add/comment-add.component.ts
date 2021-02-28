@@ -1,12 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { CommentService } from '@services/comment.service'
-import { PostService } from '@services/post.service'
-import { forkJoin } from 'rxjs'
-import { mergeMap } from 'rxjs/operators'
 import { getNowDateFormated } from 'src/app/utils/date'
-import { Comment, Post } from '~types/post'
+import { Post } from '~types/post'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { Comments } from '~types/comment'
 
 @Component({
   selector: 'app-comment-add',
@@ -14,11 +11,13 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
   styleUrls: ['./comment-add.component.scss'],
 })
 export class CommentAddComponent implements OnInit {
+  @Output()
+  public comment: EventEmitter<Comments> = new EventEmitter<Comments>()
   @Input() public post!: Post
   public form: FormGroup
   public paperPlaneIcon = faPaperPlane
 
-  constructor(private _fb: FormBuilder, private _commentService: CommentService, private _postService: PostService) {
+  constructor(private _fb: FormBuilder) {
     this.form = this._fb.group({
       user: ['', [Validators.required]],
       content: ['', [Validators.required]],
@@ -32,15 +31,13 @@ export class CommentAddComponent implements OnInit {
       return
     }
 
-    const data: Comment = { ...this.form.value, postId: this.post.id, date: getNowDateFormated() }
+    const data: Comments = {
+      ...this.form.value,
+      postId: this.post.id,
+      date: getNowDateFormated(),
+    }
 
-    this._commentService
-      .addComment$(data)
-      .pipe(mergeMap((_) => forkJoin([this._postService.getAll$(), this._postService.getOne$(this.post.slug)])))
-      .subscribe(
-        () => {},
-        (err) => console.error(err),
-        () => this.form.reset()
-      )
+    this.comment.emit(data)
+    this.form.reset()
   }
 }

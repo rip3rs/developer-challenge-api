@@ -1,17 +1,43 @@
-<h1>Challenge</h1>
 
-<app-card *ngFor="let post of posts$ |async; trackBy: trackByFn">
-  <div cardHeader>
-    <h2 class="h5 author"><span>{{post.author}}</span> - <span>{{post.publish_date}}</span></h2>
-    <a routerLink="{{post.slug}}">
-      <h3 class="h2 title">{{post.title}}</h3>
-    </a>
-  </div>
-  <div cardContent>
-    <p>{{post.description}}</p>
-  </div>
-  <div cardFooter>
-    <app-comment-show *ngFor="let comment of post.comments" [data]="comment"></app-comment-show>
-    <app-comment-add [post]="post"></app-comment-add>
-  </div>
-</app-card>
+<h1>Challenge: For SEO SEM perhaps Rerender or Angular Universal?</h1>
+
+<div class="container">
+  <app-search (ouputText)="searchText($event)"></app-search>
+  <ng-container *ngIf="(posts$ | async) as posts; else loading">
+    <ng-container *ngIf="posts && posts.length > 0; else noPosts">
+      <app-card *ngFor="let post of posts; trackBy: trackByFn">
+        <div cardHeader>
+          <h2 class="h5 author"><span>{{post.author}}</span> - <span>{{post.publish_date}}</span></h2>
+          <a routerLink="{{post.slug}}">
+            <h3 class="h2 title">{{post.title}}</h3>
+          </a>
+        </div>
+        <div cardContent>
+          <p>{{post.description}}</p>
+        </div>
+        <div cardFooter>
+          <app-comment-show *ngFor="let comment of post.comments" [data]="comment"></app-comment-show>
+          <app-comment-add [post]="post" (comment)="addComment($event)"></app-comment-add>
+        </div>
+      </app-card>
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #noPosts>
+  <app-card>
+    <div cardHeader>
+    </div>
+    <div cardContent>
+      <p>No Posts</p>
+    </div>
+  </app-card>
+</ng-template>
+
+<ng-template #loading>
+  <app-card>
+    <div cardHeader>
+      <h3 class="h2 title">Loading</h3>
+    </div>
+  </app-card>
+</ng-template>
