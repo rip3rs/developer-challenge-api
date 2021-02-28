@@ -7,6 +7,7 @@ import { CommentAddComponent } from './comments/add/comment-add.component'
 import { CommentShowComponent } from './comments/show/comment-show.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { SearchComponent } from './search/search.component'
+import { TruncatePipe } from '../pipes/truncate.pipe'
 
 const COMPONENTS = [
   CardComponent,
@@ -16,9 +17,11 @@ const COMPONENTS = [
   SearchComponent,
 ]
 
+const PIPES = [TruncatePipe]
+
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, ...PIPES],
   exports: [...COMPONENTS],
 })
 export class ComponentsModule {}
