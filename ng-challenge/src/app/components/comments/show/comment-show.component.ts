@@ -7,6 +7,7 @@ import { Comments } from '~types/comment'
   styleUrls: ['./comment-show.component.scss'],
 })
 export class CommentShowComponent implements OnInit {
+  public readMore = false
   @Input() public data!: Comments // ! is dangerous...
 
   constructor() {}

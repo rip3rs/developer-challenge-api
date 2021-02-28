@@ -1,4 +1,3 @@
-<div class="post--container">
   <app-card *ngIf="post$ |async as post">
     <div cardHeader>
       <h1 class="title">
@@ -18,4 +17,3 @@
       <app-comment-add [post]="post" (comment)="addComment($event)"></app-comment-add>
     </div>
   </app-card>
-</div>
