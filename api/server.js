@@ -12,5 +12,4 @@ server.use(jsonServer.rewriter({
   "/comments/:postId": "/comments?postId=:postId"
 }))
 server.use(router);
-console.log(port)
 server.listen(port);
